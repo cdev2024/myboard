@@ -1,7 +1,9 @@
 package com.example.myboard.board.controller;
 
 import com.example.myboard.board.model.BoardRequest;
+import com.example.myboard.board.model.BoardResponse;
 import com.example.myboard.board.service.BoardService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,9 +18,9 @@ public class BoardApiController {
     private final BoardService boardService;
 
     @PostMapping("")
-    public void  create(
-            @RequestBody BoardRequest boardRequest
+    public BoardResponse create(
+            @Valid @RequestBody BoardRequest boardRequest
     ){
-        boardService.create(boardRequest);
+        return boardService.create(boardRequest);
     }
 }
