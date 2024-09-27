@@ -12,12 +12,12 @@ public class BoardService {
 
     private final BoardRepository boardRepositoy;
 
-    public BoardEntity create(BoardRequest boardRequest) {
+    public void create(BoardRequest boardRequest) {
         var entity = BoardEntity.builder()
                     .boardName(boardRequest.getBoardName())
                     .status("REGISTERED")
                     .build();
 
-        return boardRepositoy.save();
+        //return boardRepositoy.save();
     }
 }

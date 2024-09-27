@@ -16,9 +16,9 @@ public class BoardApiController {
     private final BoardService boardService;
 
     @PostMapping("")
-    public BoardRequest  create(
+    public void  create(
             @RequestBody BoardRequest boardRequest
     ){
-        return boardService.create(boardRequest);
+        boardService.create(boardRequest);
     }
 }
