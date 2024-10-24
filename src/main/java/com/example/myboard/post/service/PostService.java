@@ -55,6 +55,7 @@ public class PostService {
 
         return PostViewResponse.builder()
                 .id(entity.getId())
+                .boardId(entity.getBoardId())
                 .userName(entity.getUserName())
                 .email(entity.getEmail())
                 .title(entity.getTitle())
@@ -67,6 +68,20 @@ public class PostService {
         return postRepository.findAllByStatusOrderByIdDesc("REGISTERED").stream()
                 .map(post -> PostViewResponse.builder()
                         .id(post.getId())
+                        .userName(post.getUserName())
+                        .email(post.getEmail())
+                        .title(post.getTitle())
+                        .content(post.getContent())
+                        .postedAt(post.getPostedAt())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    public List<PostViewResponse> getPostsByBoardId(Long boardId){
+        return postRepository.findAllByBoardIdAndStatusOrderByIdDesc(boardId, "REGISTERED").stream()
+                .map(post -> PostViewResponse.builder()
+                        .id(post.getId())
+                        .boardId(post.getBoardId())
                         .userName(post.getUserName())
                         .email(post.getEmail())
                         .title(post.getTitle())
