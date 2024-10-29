@@ -18,6 +18,9 @@ import java.time.LocalDateTime;
 @Builder
 @JsonNaming(value = PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class PostRequest {
+    @NotNull
+    private Long boardId; // 게시판 ID
+
     @NotBlank
     private String userName;
 

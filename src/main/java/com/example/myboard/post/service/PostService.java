@@ -22,7 +22,7 @@ public class PostService {
 
     public PostResponse create(@Valid PostRequest postRequest) {
         var entity = PostEntity.builder()
-                .boardId(2L)  // << 임시 고정 : 2번
+                .boardId(postRequest.getBoardId())  // << 전달 받은 boardId 사용
                 .userName(postRequest.getUserName())
                 .password(postRequest.getPassword())
                 .email(postRequest.getEmail())
@@ -110,5 +110,27 @@ public class PostService {
                             return new RuntimeException(("해당 게시글이 존재하지 않습니다 : " + postViewRequest.getPostId()));
                         }
                 );
+    }
+
+    public PostResponse updatePost(Long id, @Valid PostRequest postRequest) {
+        var postEntity = postRepository.findById(id).orElseThrow(() -> new RuntimeException("해당 게시글이 존재하지 않습니다: " +id));
+
+        // 비밀 번호 검증
+        if(!postEntity.getPassword().equals(postRequest.getPassword())){
+            throw new RuntimeException("비밀번호가 일치하지 않습니다.");
+        }
+
+        //게시글 정보 업데이트
+        postEntity.setTitle(postRequest.getTitle());
+        postEntity.setContent(postRequest.getContent());
+        postEntity.setEmail(postRequest.getEmail());
+        postEntity.setUserName(postRequest.getUserName());
+
+        var updateEntity = postRepository.save(postEntity);
+
+        return PostResponse.builder()
+                .id(updateEntity.getId())
+                .status(updateEntity.getStatus())
+                .build();
     }
 }
